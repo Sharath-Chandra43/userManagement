@@ -51,16 +51,20 @@ class App extends Component {
         throw new Error('Failed to add user');
       }
       const newUser = await response.json();
-
-      // Map API response back to form fields
+  
+      // Assign a unique ID based on the maximum ID in the current list
+      const maxId = this.state.users.reduce((max, user) => Math.max(max, user.id), 0);
+      const uniqueId = maxId + 1;
+  
+      // Map API response back to form fields with a unique ID
       const mappedUser = {
-        id: newUser.id,
+        id: uniqueId,
         FirstName: newUser.FirstName,
         LastName: newUser.LastName,
         email: newUser.email,
         department: newUser.department || 'N/A',
       };
-
+  
       this.setState((prevState) => ({
         users: [...prevState.users, mappedUser],
         selectedUser: null,
@@ -69,6 +73,7 @@ class App extends Component {
       this.setState({ error: 'Failed to add user: ' + error.message });
     }
   };
+  
 
 // editing the exsisted user from user list getting user details based on the id
 
