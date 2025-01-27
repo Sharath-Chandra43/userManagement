@@ -24,12 +24,10 @@ class App extends Component {
         throw new Error('Failed to fetch users');
       }
       const data = await response.json();
-
-      // Map API fields to match the form fields
       const mappedUsers = data.map((user) => ({
         id: user.id,
-        FirstName: user.name, // Map 'name' to 'FirstName'
-        LastName: user.username, // Map 'username' to 'LastName'
+        FirstName: user.name,
+        LastName: user.username, 
         email: user.email,
         department: user.department || 'N/A', // Add department with default value
       }));
@@ -39,6 +37,8 @@ class App extends Component {
       this.setState({ error: 'Failed to fetch users: ' + error.message });
     }
   };
+
+  // adding a user into the userList 
 
   handleAddUser = async (userData) => {
     try {
@@ -70,6 +70,8 @@ class App extends Component {
     }
   };
 
+// editing the exsisted user from user list getting user details based on the id
+
   handleEditUser = (userId) => {
     const selectedUser = this.state.users.find((user) => user.id === userId);
     if (selectedUser) {
@@ -77,7 +79,10 @@ class App extends Component {
     } else {
       console.error(`User with ID ${userId} not found in state.`);
     }
+    console.log(selectedUser)
   };
+
+  // updating the userlist after editing the required changes
 
   handleUpdateUser = async (userData) => {
     try {
@@ -111,6 +116,8 @@ class App extends Component {
       this.setState({ error: 'Failed to update user: ' + error.message });
     }
   };
+
+  //Deleting an user from userList
 
   handleDeleteUser = async (userId) => {
     try {
